@@ -1,0 +1,128 @@
+involve stream
+
+program main { //Set Octave, Go, OOC!!! or Scala (for syntax highlighting)
+
+	simple()[]
+	matrix()[]
+	streams()[]
+	objects()[]
+	cycles()[]
+	modifiers()[]
+
+	func simple()() { //Простые типы
+		rat a = 0.5
+		num b = 2
+		sym x = 'a'
+		bool t = true
+		str s = "abcd"
+
+		rat y = a + b 			    //2.5
+		y = a * x				//48.5
+		y = a * t				//0.5
+		num q = b * x 				//194
+		q = b + t 				//3
+		str r = s * b 				//"abcdabcd"
+		r += b					//"abcdabcd2"
+		r = s * b + t				//"abcdabcd1"
+		r = s * -1				//"dcba"
+		/*ILLEGAL:
+			str * rat
+			str * str
+			str / smth
+			str - smth
+		*/
+
+	}
+
+	func matrix()() { //Матрицы
+		mtx a = [1, 2, |('a', true, 7), (1, false, null)|] //1,2,3
+		mtx b = [1, 2, |(5, 2, 1), (3, 4, 2)|]  	   //1,2,3
+		mtx c = [2, 1, |(5, 2, 1), (3, 4, 2), (2, 3, 4)|, |(1, 1, 3), (0, 2, 4), (3, 2, 1)|] //2,3,3
+		display(a + b)[]  			//[1, 2, |(102, 3, 8), (4, 4, 2)|] //1,2,3
+		display(a * c)[]  			//[1, 1, |(503, 220, 130)|]  //1,3
+		display(a +* b)[] 			//[1, 2, |(485, 3, 7), (3, 0, 0)|] //1,2,3
+		display(a ** b)[] 			//длинная долбанная хрень, размером 4х1х9(тензорное умножение)
+	}
+
+	func streams()() { //Потоки ввода/вывода
+		display(acl)[]				//Arguments of command line
+		num p
+		write(p)[]
+	}
+
+	func objects()() { //Пример объектов и их копирования
+		str name1
+		num age1
+		str name = "Bob"
+		num age = 19
+
+		func x = student(name, age)
+		display(x[])[] 				//Bob, 19
+
+		func x1 = x
+		display(x1[])[] 			//Bob, 19
+
+		name1, age1 = x1("Alice", 25)[]
+		display(x1[])[] 			//Alice, 25
+
+		func student(str name, num age)(str name, num age) {}
+
+		display(x1.name)[] 			//Alice
+
+		//Передача функции как аргумента
+		func classmate(func st)(func st, mtx x){
+		    x = st[]
+		}
+
+		func x2 = classmate(x1, 2)
+		display(x2.name, x2.age, x2[3])[] 	//Alice, 25, 2
+	}
+
+	func cyclesAndConditions()() { //Циклы
+		for num i = 0, i < 10, i++ {
+			display(i)[]
+		}
+		num i = 0
+		while i < 10 {
+			display(i)[]
+			i++
+		}
+		mtx a = [1, 1, |1, 2, 3|, |4, 5, 6|, |7, 8, 9|]
+		inc a, b {
+			display(b)[]  			//1,2,3,4,5,6,7,8,9
+		}
+		select i {
+		    0: write 0
+		    10: {
+		        write "hehe"
+		    }
+		    other: write "hoho"
+		}
+	}
+	func modifiers()() { //Модификатор глобального доступа general и прерывание break
+	    func s()(func s1) {
+	        func s1()(num z) {
+	            z = 5
+	            general num param = 0
+	        }
+	        a = 0
+	    }
+	    func n(func s)() {
+	        display(s[0][])[]
+	        //s.a ILLEGAL
+	        func sss()() {
+	            display(param)[]
+	            sym a = 'a'
+	            for num i = 0, i < 3, i++ {
+	                if i > 1 {
+	                    break 1 //Прерывание цикла for
+	                } else if i > 2 {
+	                    break 2 //Прерывание всей функции(недостижимо)
+	                }
+	            }
+	        }
+	        sss()[]
+	    }
+	    n(s())[]
+	}
+}
