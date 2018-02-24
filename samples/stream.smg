@@ -1,0 +1,51 @@
+program stream {
+/*
+	display functions, prints to console
+	display(1) => 1\n
+*/
+	func display(num a)() {
+		write a
+	}
+	func display(rat a)() {
+		write a
+	}
+	func display(sym a)() {
+		write a
+	}
+	func display(bool a)() {
+		write a
+	}
+	func display(str a)() {
+		write a
+	}
+	func display(mtx a)() {
+		inc a, num i {
+			display(a[i])
+		}
+	}
+
+/*
+	read functions, gets from console
+*/
+	func read(num a)(num a) {
+		reading 4 a
+	}
+	func read(rat a)(rat a) {
+		reading 8 a
+	}
+	func read(sym a)(sym a) {
+		reading 2 a
+	}
+	func read(bool a)(bool a) {
+		str b
+		read(b)[]
+		a = (b == "true")
+	}
+	func read(str a)(str a) {
+		sym b
+		read(b)[]
+		for b, b != '\n', read(b)[] {
+			a += b
+		}
+	}
+}
